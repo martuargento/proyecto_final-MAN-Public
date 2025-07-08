@@ -154,7 +154,7 @@ const Header = () => {
                   to="/login" 
                   className="admin-link"
                 >
-                  admin
+                  Iniciar sesión
                 </Link>
               </div>
             )}
