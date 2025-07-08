@@ -69,8 +69,8 @@ const ProductoForm = ({ onSubmit, productoInicial, modo, onCancel }) => {
         <input type="text" className="form-control" value={categoria} onChange={e => setCategoria(e.target.value)} />
         {errores.categoria && <div className="text-danger">{errores.categoria}</div>}
       </div>
-      <button type="submit" className="btn btn-success me-2" aria-label={modo === 'editar' ? 'Guardar cambios' : 'Agregar producto'}>{modo === 'editar' ? 'Guardar cambios' : 'Agregar'}</button>
-      {onCancel && <button type="button" className="btn btn-secondary" onClick={onCancel} aria-label="Cancelar edición">Cancelar</button>}
+      <button type="submit" className="btn btn-editar me-2" aria-label={modo === 'editar' ? 'Guardar cambios' : 'Agregar producto'}>{modo === 'editar' ? 'Guardar cambios' : 'Agregar'}</button>
+      {onCancel && <button type="button" className="btn btn-eliminar" onClick={onCancel} aria-label="Cancelar edición">Cancelar</button>}
     </FormContainer>
   );
 };
@@ -98,8 +98,8 @@ const ModalConfirmacion = ({ mostrar, onConfirmar, onCancelar, producto }) => {
             ¿Seguro que deseas eliminar el producto "{producto?.titulo}"?
           </div>
           <div className="modal-footer">
-            <button className="btn btn-danger" onClick={onConfirmar} aria-label="Confirmar eliminación">Eliminar</button>
-            <button className="btn btn-secondary" onClick={onCancelar} aria-label="Cancelar eliminación">Cancelar</button>
+            <button className="btn btn-eliminar" onClick={onConfirmar} aria-label="Confirmar eliminación">Eliminar</button>
+            <button className="btn btn-editar" onClick={onCancelar} aria-label="Cancelar eliminación">Cancelar</button>
           </div>
         </div>
       </div>
@@ -162,40 +162,42 @@ const ProductosCRUD = () => {
       <h3>Administrar productos</h3>
       {error && <div className="alert alert-danger">{error}</div>}
       {cargando && <div>Cargando productos...</div>}
-      <button className="btn btn-success mb-3" onClick={() => setModalForm({ mostrar: true, modo: 'agregar', producto: null })}>
+      <button className="btn btn-agregar mb-3" onClick={() => setModalForm({ mostrar: true, modo: 'agregar', producto: null })}>
         Agregar producto
       </button>
-      <StyledTable className="table table-striped mt-4">
-        <thead>
-          <tr>
-            <th>Título</th>
-            <th>Precio</th>
-            <th>Descripción</th>
-            <th>Imagen</th>
-            <th>Categoría</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productos.map(prod => (
-            <tr key={prod.id}>
-              <td>{prod.titulo}</td>
-              <td>${prod.precio}</td>
-              <td>{prod.descripcion}</td>
-              <td>{prod.imagen && <img src={prod.imagen} alt={prod.titulo} style={{width: '60px'}} />}</td>
-              <td>{prod.categoria}</td>
-              <td>
-                <button className="btn btn-warning btn-sm me-2" onClick={() => setModalForm({ mostrar: true, modo: 'editar', producto: prod })} aria-label="Editar producto">
-                  Editar
-                </button>
-                <button className="btn btn-danger btn-sm" onClick={() => setModalEliminar({ mostrar: true, producto: prod })} aria-label="Eliminar producto">
-                  Eliminar
-                </button>
-              </td>
+      <div className="tabla-responsive">
+        <StyledTable className="table table-striped mt-4">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Precio</th>
+              <th>Descripción</th>
+              <th>Imagen</th>
+              <th>Categoría</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </StyledTable>
+          </thead>
+          <tbody>
+            {productos.map(prod => (
+              <tr key={prod.id}>
+                <td>{prod.titulo}</td>
+                <td>${prod.precio}</td>
+                <td>{prod.descripcion}</td>
+                <td>{prod.imagen && <img src={prod.imagen} alt={prod.titulo} style={{width: '60px'}} />}</td>
+                <td>{prod.categoria}</td>
+                <td>
+                  <button className="btn btn-editar btn-sm me-2" onClick={() => setModalForm({ mostrar: true, modo: 'editar', producto: prod })} aria-label="Editar producto">
+                    Editar
+                  </button>
+                  <button className="btn btn-eliminar btn-sm" onClick={() => setModalEliminar({ mostrar: true, producto: prod })} aria-label="Eliminar producto">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </StyledTable>
+      </div>
       <ModalFormulario
         mostrar={modalForm.mostrar}
         onClose={() => setModalForm({ mostrar: false, modo: 'agregar', producto: null })}

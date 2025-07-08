@@ -13,4 +13,4 @@ const Buscador = ({ valor, onChange }) => {
   );
 };
 
-export default Buscador; 
+export default Buscador;

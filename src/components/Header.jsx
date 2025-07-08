@@ -6,6 +6,8 @@ import logo from '../assets/logo.png';
 import AlternarTema from './AlternarTema';
 import { useAuth } from '../context/AuthContext';
 import { useProductos } from '../context/ProductosContext';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const Header = () => {
   const { carrito } = usarCarrito();
@@ -80,6 +82,15 @@ const Header = () => {
   const manejarLogout = () => {
     logout();
     navigate('/');
+    Swal.fire({
+      icon: 'success',
+      title: '¡Sesión cerrada!',
+      text: 'Has cerrado sesión correctamente',
+      confirmButtonText: 'OK',
+      customClass: {
+        confirmButton: 'swal2-confirm'
+      }
+    });
   };
 
   const formatCategory = (name) => {
@@ -143,7 +154,7 @@ const Header = () => {
           <div className="d-flex align-items-center gap-3">
             {autenticado ? (
               <button 
-                className="btn btn-outline-danger"
+                className="btn btn-cerrar-sesion"
                 onClick={manejarLogout}
               >
                 Cerrar sesión
@@ -380,7 +391,7 @@ const Header = () => {
                     className="mobile-menu-admin"
                     onClick={handleToggleMobileMenu}
                   >
-                    admin
+                    Iniciar sesión
                   </Link>
                 )}
               </div>
