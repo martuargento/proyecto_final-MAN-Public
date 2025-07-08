@@ -9,7 +9,14 @@ Ya se encuentra desplegado en:
 https://alebourg.vercel.app/
 ----------
 
+Credenciales:
+usuario: admin
+contraseña: 1234
 
+para hacer el crud hay que loguearse primero, y luego ya
+se puede ingresar a la direccion /admin/productos
+
+------------------------
 
 Requisitos:
 Para usarlo se necesita tenr instalado:
