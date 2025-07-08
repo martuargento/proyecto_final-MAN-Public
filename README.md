@@ -15,7 +15,8 @@ usuario: admin
 
 contraseña: 1234
 
-para hacer el crud hay que loguearse primero, y luego ya
+
+para hacer el CRUD hay que loguearse primero, y luego ya
 se puede ingresar a la direccion /admin/productos
 
 ------------------------
