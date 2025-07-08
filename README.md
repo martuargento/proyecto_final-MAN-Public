@@ -1,13 +1,13 @@
+----------
 Proyecto Final - Alebourg
+----------
 
 Este es mi proyecto final del curso, se trata de Alebourg,mi tienda online hecha con React. Permite ver productos, agregarlos, editarlos y borrarlos. Todo está conectado con MockAPI, que usé como base de datos. También me aseguré de que funcione bien tanto en desktop como en celular.
 
-----------------
-
+----------
 Ya se encuentra desplegado en:
 https://alebourg.vercel.app/
-
-----------------
+----------
 
 
 
@@ -42,9 +42,11 @@ Subirlo a un hosting
 podes esa carpeta dist a algún servicio como:
 
 Vercel, Netlify, GitHub Pages
+
 ----------
 API:
-La app usa MockAPI para guardar los productos. La URL actual está en:
+La app usa MockAPI para guardar los productos. 
+La URL actual está en:
 src/context/ProductosContext.jsx
 ----------
 
