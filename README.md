@@ -1,59 +1,47 @@
-# Alebourg - E-commerce React
+Proyecto Final - Alebourg
 
-Este proyecto es una tienda online desarrollada en React, con carrito de compras, autenticación, CRUD de productos conectado a MockAPI, búsqueda, paginación, diseño responsivo y optimización para despliegue.
+Este es mi proyecto final del curso, se trata de Alebourg,mi tienda online hecha con React. Permite ver productos, agregarlos, editarlos y borrarlos. Todo está conectado con MockAPI, que usé como base de datos. También me aseguré de que funcione bien tanto en desktop como en celular.
 
-## Características principales
-- Carrito de compras con Context API
-- Autenticación de usuarios (login simulado)
-- CRUD de productos con MockAPI
-- Búsqueda y paginación de productos
-- Diseño responsivo con Bootstrap y styled-components
-- Notificaciones con React Toastify
-- SEO con React Helmet
-- Accesibilidad mejorada (etiquetas ARIA)
+Requisitos
+Para usarlo se necesita tenr instalado:
 
-## Requisitos previos
-- Node.js >= 16.x
-- npm >= 8.x
+Node.js (versión 16 o más)
 
-## Instalación
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/martinalejandronuniezcursor2/alebourgprueba.git
-   cd alebourgprueba
-   ```
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
+npm (versión 8 o más)
 
-## Uso en desarrollo
-Para correr la app en modo desarrollo:
-```bash
+Instalacion:
+Clonar el repositorio:
+git clone https://github.com/martuargento/proyecto_final-MAN-Public.git
+cd alebourgprueba
+
+Instalar las dependencias:
+npm install
+
+Luego:
 npm run dev
-```
-La app estará disponible en [http://localhost:5173](http://localhost:5173)
 
-## Build para producción
-Para construir la app lista para producción:
-```bash
+entrar en http://localhost:5173 desde el navegador.
+
+Para producción si querés generar los archivos listos para subir a un hosting:
 npm run build
-```
-Los archivos finales estarán en la carpeta `dist/`.
 
-## Despliegue
-Puedes desplegar la carpeta `dist/` en cualquier hosting estático (Vercel, Netlify, GitHub Pages, etc.).
+Eso crea una carpeta dist con todo lo necesario.
 
-## Configuración de MockAPI
-- El CRUD de productos está conectado a [MockAPI](https://682f69eef504aa3c70f3f01a.mockapi.io/Alebourg).
-- Puedes modificar la URL de MockAPI en `src/context/ProductosContext.jsx` si lo necesitas.
+Subirlo a un hosting
+podes esa carpeta dist a algún servicio como:
 
-## Variables de entorno
-No se requieren variables de entorno adicionales para el funcionamiento básico.
+Vercel, Netlify, GitHub Pages
 
-## Pruebas de compatibilidad
-- El diseño es responsivo y compatible con móviles, tablets y escritorio.
-- Se recomienda probar en distintos dispositivos antes del despliegue final.
+API:
+La app usa MockAPI para guardar los productos. La URL actual está en:
 
-## Contacto
-Para dudas o sugerencias, contacta a [martinalejandronuniezcursor2](https://github.com/martinalejandronuniezcursor2).
+src/context/ProductosContext.jsx
+
+Variables de entorno
+No hace falta configurar nada extra, con clonar e instalar ya debería andar bien.
+
+Funciona en celular
+Probé que se vea bien en distintos tamaños de pantalla. Aun así, siempre es bueno revisar antes de subirlo.
+
+
+
