@@ -151,6 +151,12 @@ const Header = () => {
                 </div>
               )}
             </li>
+            {/* Botón Admin solo si está autenticado */}
+            {autenticado && (
+              <li className="nav-item">
+                <Link className="nav-link text-white" to="/admin/productos">Admin</Link>
+              </li>
+            )}
           </ul>
           <div className="d-flex align-items-center gap-3">
             {autenticado ? (
@@ -367,6 +373,18 @@ const Header = () => {
                     </>
                   )}
                 </li>
+                {/* Botón Admin solo si está autenticado en mobile */}
+                {autenticado && (
+                  <li className="mobile-menu-item">
+                    <Link 
+                      to="/admin/productos" 
+                      className="mobile-menu-link"
+                      onClick={alternarMenuMobile}
+                    >
+                      Admin
+                    </Link>
+                  </li>
+                )}
                 <li className="mobile-menu-item" style={{ marginTop: '1rem' }}>
                   <div className="d-flex justify-content-center">
                     <AlternarTema />
