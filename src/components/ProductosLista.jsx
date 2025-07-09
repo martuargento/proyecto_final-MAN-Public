@@ -38,7 +38,7 @@ const ProductosLista = () => {
   if (error) return <div className="text-danger">{error}</div>;
   return (
     <div>
-      <Buscador valor={busqueda} onChange={buscarProductos} />
+      <Buscador valor={busqueda} onChange={buscarProductos} placeholder="Buscar productos..." />
       <div className="row">
         {productosPagina.map(producto => (
           <div className="col-md-4 mb-4" key={producto.id}>

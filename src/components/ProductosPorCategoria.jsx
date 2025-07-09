@@ -42,7 +42,7 @@ const ProductosPorCategoria = () => {
   return (
     <div className="container my-5">
       <h2>Productos de la categoría: {nombreCategoria}</h2>
-      <Buscador valor={busqueda} onChange={handleBuscar} />
+      <Buscador valor={busqueda} onChange={handleBuscar} placeholder="Buscar productos en esta categoría..." />
       <div className="row">
         {productosPagina.length === 0 && <div>No hay productos en esta categoría.</div>}
         {productosPagina.map(producto => (
