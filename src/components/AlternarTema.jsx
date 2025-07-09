@@ -2,36 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
 const AlternarTema = () => {
-  const [esOscuro, setEsOscuro] = useState(false);
-  const [esMovil, setEsMovil] = useState(window.innerWidth <= 575);
+  const [temaOscuro, setTemaOscuro] = useState(false);
+  const [esMobile, setEsMobile] = useState(window.innerWidth <= 575);
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', esOscuro ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', temaOscuro ? 'dark' : 'light');
 
-    const manejarResize = () => {
-      setEsMovil(window.innerWidth <= 575);
+    const cambiarTamanio = () => {
+      setEsMobile(window.innerWidth <= 575);
     };
 
-    window.addEventListener('resize', manejarResize);
-    return () => window.removeEventListener('resize', manejarResize);
-  }, [esOscuro]);
+    window.addEventListener('resize', cambiarTamanio);
+    return () => window.removeEventListener('resize', cambiarTamanio);
+  }, [temaOscuro]);
 
-  const alternarTema = () => {
-    setEsOscuro(!esOscuro);
-    document.documentElement.setAttribute('data-theme', !esOscuro ? 'dark' : 'light');
+  const cambiarTema = () => {
+    setTemaOscuro(!temaOscuro);
+    document.documentElement.setAttribute('data-theme', !temaOscuro ? 'dark' : 'light');
   };
 
   return (
     <button
-      onClick={alternarTema}
-      className="alternar-tema-boton"
-      aria-label={esOscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-      title={esOscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+        onClick={cambiarTema}
+        className="alternar-tema-boton"
+        aria-label={temaOscuro ? "Pasar a modo claro" : "Pasar a modo oscuro"}
+        title={temaOscuro ? "Pasar a modo claro" : "Pasar a modo oscuro"}
     >
-      {esOscuro ? <FaSun size={20} /> : <FaMoon size={20} />}
-      {esMovil && (
+      {temaOscuro ? <FaSun size={20} /> : <FaMoon size={20} />}
+      {esMobile && (
         <span className="alternar-tema-texto">
-          {esOscuro ? "Tema claro" : "Tema oscuro"}
+          {temaOscuro ? "Claro" : "Oscuro"}
         </span>
       )}
     </button>

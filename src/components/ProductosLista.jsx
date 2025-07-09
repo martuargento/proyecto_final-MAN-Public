@@ -3,7 +3,9 @@ import { useProductos } from '../context/ProductosContext';
 import { usarCarrito } from '../context/CarritoContexto';
 import { toast } from 'react-toastify';
 import { FaCartPlus } from 'react-icons/fa';
+
 import Buscador from './Buscador';
+
 const PRODUCTOS_POR_PAGINA = 9;
 const ProductosLista = () => {
   const { productos, cargando, error } = useProductos();
@@ -19,15 +21,15 @@ const ProductosLista = () => {
     (pagina - 1) * PRODUCTOS_POR_PAGINA,
     pagina * PRODUCTOS_POR_PAGINA
   );
-  const handleAgregar = (producto) => {
+  const agregarProducto = (producto) => {
     agregarAlCarrito(producto);
-    toast.success('Producto agregado al carrito');
+    toast.success('¡Agregado al carrito!');
   };
-  const handleBuscar = (e) => {
+  const buscarProductos = (e) => {
     setBusqueda(e.target.value);
     setPagina(1);
   };
-  const handlePagina = (nuevaPagina) => {
+  const cambiarPagina = (nuevaPagina) => {
     if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
       setPagina(nuevaPagina);
     }
@@ -36,7 +38,7 @@ const ProductosLista = () => {
   if (error) return <div className="text-danger">{error}</div>;
   return (
     <div>
-      <Buscador valor={busqueda} onChange={handleBuscar} />
+      <Buscador valor={busqueda} onChange={buscarProductos} />
       <div className="row">
         {productosPagina.map(producto => (
           <div className="col-md-4 mb-4" key={producto.id}>
@@ -47,28 +49,28 @@ const ProductosLista = () => {
                 <p className="card-text">{producto.descripcion}</p>
                 <p className="card-text"><strong>Precio:</strong> ${producto.precio}</p>
                 <p className="card-text"><strong>Categoría:</strong> {producto.categoria}</p>
-                <button className="btn btn-primary mt-2" onClick={() => handleAgregar(producto)} aria-label="Agregar al carrito">
+                <button className="btn btn-primary mt-2" onClick={() => agregarProducto(producto)} aria-label="Agregar al carrito">
                   <FaCartPlus /> Agregar al carrito
                 </button>
               </div>
             </div>
           </div>
         ))}
-        {productosPagina.length === 0 && <div className="text-center">No se encontraron productos.</div>}
+        {productosPagina.length === 0 && <div className="text-center">No encontramos productos.</div>}
       </div>
       {totalPaginas > 1 && (
         <nav aria-label="Paginador de productos">
           <ul className="pagination justify-content-center">
             <li className={`page-item${pagina === 1 ? ' disabled' : ''}`}>
-              <button className="page-link" onClick={() => handlePagina(pagina - 1)} aria-label="Página anterior">&laquo;</button>
+              <button className="page-link" onClick={() => cambiarPagina(pagina - 1)} aria-label="Página anterior">&laquo;</button>
             </li>
             {Array.from({ length: totalPaginas }, (_, i) => (
               <li key={i + 1} className={`page-item${pagina === i + 1 ? ' active' : ''}`}>
-                <button className="page-link" onClick={() => handlePagina(i + 1)} aria-label={`Página ${i + 1}`}>{i + 1}</button>
+                <button className="page-link" onClick={() => cambiarPagina(i + 1)} aria-label={`Página ${i + 1}`}>{i + 1}</button>
               </li>
             ))}
             <li className={`page-item${pagina === totalPaginas ? ' disabled' : ''}`}>
-              <button className="page-link" onClick={() => handlePagina(pagina + 1)} aria-label="Página siguiente">&raquo;</button>
+              <button className="page-link" onClick={() => cambiarPagina(pagina + 1)} aria-label="Página siguiente">&raquo;</button>
             </li>
           </ul>
         </nav>

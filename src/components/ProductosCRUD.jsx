@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useProductos } from '../context/ProductosContext';
-import styled from 'styled-components';
 import { toast } from 'react-toastify';
+
+import styled from 'styled-components';
+
 const FormContainer = styled.form`
   background: #fff;
   border-radius: 8px;

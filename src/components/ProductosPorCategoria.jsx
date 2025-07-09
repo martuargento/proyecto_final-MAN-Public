@@ -4,7 +4,9 @@ import { useProductos } from '../context/ProductosContext';
 import { usarCarrito } from '../context/CarritoContexto';
 import { toast } from 'react-toastify';
 import { FaCartPlus } from 'react-icons/fa';
+
 import Buscador from './Buscador';
+
 const PRODUCTOS_POR_PAGINA = 9;
 const normalizar = str => str.normalize('NFD').replace(/[ -]/g, '').replace(/\s+/g, '').toLowerCase();
 const ProductosPorCategoria = () => {

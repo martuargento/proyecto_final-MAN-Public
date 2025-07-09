@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useNavigate as usarNavegacion } from 'react-router-dom';
+import { useAuth as usarAuth } from '../context/AuthContext';
 
 import Swal from 'sweetalert2';
 
-
-const Login = () => {
+const IniciarSesion = () => {
   const [usuario, setUsuario] = useState('');
   const [clave, setClave] = useState('');
-  const navegar = useNavigate();
-  const { login } = useAuth();
+  const navegar = usarNavegacion();
+  const { login: iniciarSesion } = usarAuth();
 
   const entrar = (e) => {
     e.preventDefault();
 
     if (usuario === 'admin' && clave === '1234') {
-      login();
+      iniciarSesion();
       Swal.fire({
         title: '¡Hola!',
         text: 'Entraste correctamente',
@@ -27,7 +26,7 @@ const Login = () => {
       navegar('/');
     } else {
       Swal.fire({
-        title: 'Ups',
+        title: 'Ojo',
         text: 'Usuario o clave incorrectos',
         icon: 'error',
         background: '#1e1e1e',
@@ -39,7 +38,7 @@ const Login = () => {
 
   return (
     <div className="container mt-5" style={{ maxWidth: '400px' }}>
-      <h3>Entrar</h3>
+      <h3>Iniciar sesión</h3>
       <form onSubmit={entrar}>
         <div className="mb-3">
           <label>Usuario</label>
@@ -71,4 +70,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default IniciarSesion;

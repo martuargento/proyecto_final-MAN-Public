@@ -4,32 +4,37 @@ import { useProductos } from '../context/ProductosContext';
 import { usarCarrito } from '../context/CarritoContexto';
 import { toast } from 'react-toastify';
 import { FaCartPlus } from 'react-icons/fa';
+
+
 const DetalleProducto = () => {
   const { id } = useParams();
   const { productos, cargando, error } = useProductos();
   const { agregarAlCarrito } = usarCarrito();
   const producto = productos.find(p => String(p.id) === String(id));
-  const handleAgregar = () => {
+  
+  const agregarProducto = () => {
     if (producto) {
       agregarAlCarrito(producto);
-      toast.success('Producto agregado al carrito');
+      toast.success('¡Agregado al carrito!');
     }
   };
-  if (cargando) return <div className="container my-5">Cargando producto...</div>;
+
+  if (cargando) return <div className="container my-5">Cargando...</div>;
   if (error) return <div className="container my-5 text-danger">{error}</div>;
-  if (!producto) return <div className="container my-5">Producto no encontrado.</div>;
+  if (!producto) return <div className="container my-5">No encontramos ese producto.</div>;
+  
   return (
     <div className="container my-5">
       <div className="row">
         <div className="col-md-6">
-          {producto.imagen && <img src={producto.imagen} alt={producto.titulo} className="img-fluid" style={{maxHeight: '400px', objectFit: 'contain'}} />}
+            {producto.imagen && <img src={producto.imagen} alt={producto.titulo} className="img-fluid" style={{maxHeight: '400px', objectFit: 'contain'}} />}
         </div>
         <div className="col-md-6">
           <h2>{producto.titulo}</h2>
           <p>{producto.descripcion}</p>
           <p><strong>Precio:</strong> ${producto.precio}</p>
           <p><strong>Categoría:</strong> {producto.categoria}</p>
-          <button className="btn btn-primary mt-2" onClick={handleAgregar} aria-label="Agregar al carrito">
+          <button className="btn btn-primary mt-2" onClick={agregarProducto} aria-label="Agregar al carrito">
             <FaCartPlus /> Agregar al carrito
           </button>
         </div>

@@ -1,54 +1,54 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaShoppingCart, FaChevronDown, FaTimes, FaChevronUp } from 'react-icons/fa';
+import { Link, useNavigate as usarNavegacion } from 'react-router-dom';
+import { FaShoppingCart, FaChevronDown, FaTimes } from 'react-icons/fa';
 import { usarCarrito } from '../context/CarritoContexto';
-import { useAuth } from '../context/AuthContext';
-import { useProductos } from '../context/ProductosContext';
+import { useAuth as usarAuth } from '../context/AuthContext';
+import { useProductos as usarProductos } from '../context/ProductosContext';
 import { toast } from 'react-toastify';
 
 import logo from '../assets/logo.png';
 import AlternarTema from './AlternarTema';
 import Swal from 'sweetalert2';
 
-const Header = () => {
+const Encabezado = () => {
   const { carrito } = usarCarrito();
-  const navegar = useNavigate();
+  const navegar = usarNavegacion();
   const [mostrarCategorias, setMostrarCategorias] = useState(false);
-  const [categoriasMobileAbiertas, setCategoriasMobileAbiertas] = useState(false);
-  const [menuMobileAbierto, setMenuMobileAbierto] = useState(false);
-  const [estaCerrando, setEstaCerrando] = useState(false);
+  const [mostrarCategoriasMovil, setMostrarCategoriasMovil] = useState(false);
+  const [mostrarMenuMovil, setMostrarMenuMovil] = useState(false);
+  const [cerrando, setCerrando] = useState(false);
   const [temaActual, setTemaActual] = useState(document.documentElement.getAttribute('data-theme'));
   const refCategorias = useRef(null);
   const refBoton = useRef(null);
-  const { logout, autenticado } = useAuth();
-  const { productos } = useProductos();
+  const { logout: cerrarSesionUsuario, autenticado: usuarioAutenticado } = usarAuth();
+  const { productos } = usarProductos();
 
   const cerrarMenu = () => {
-    setEstaCerrando(true);
+    setCerrando(true);
     setTimeout(() => {
-      setCategoriasMobileAbiertas(false);
-      setEstaCerrando(false);
+      setMostrarCategoriasMovil(false);
+      setCerrando(false);
     }, 80);
   };
 
-  const alternarMenuMobile = () => {
-    if (menuMobileAbierto) {
-      setMenuMobileAbierto(false);
-      setCategoriasMobileAbiertas(false);
+  const alternarMenuMovil = () => {
+    if (mostrarMenuMovil) {
+      setMostrarMenuMovil(false);
+      setMostrarCategoriasMovil(false);
       document.body.style.overflow = 'auto';
     } else {
-      setMenuMobileAbierto(true);
+      setMostrarMenuMovil(true);
       document.body.style.overflow = 'hidden';
     }
   };
 
   useEffect(() => {
-    const manejarClickAfuera = (event) => {
+    const manejarClickAfuera = (evento) => {
       if (
         refCategorias.current && 
-        !refCategorias.current.contains(event.target) &&
+        !refCategorias.current.contains(evento.target) &&
         refBoton.current && 
-        !refBoton.current.contains(event.target)
+        !refBoton.current.contains(evento.target)
       ) {
         setMostrarCategorias(false);
       }
@@ -57,21 +57,21 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', manejarClickAfuera);
   }, []);
 
-  const categoriasDisponibles = Array.from(new Set(productos.map(p => p.categoria).filter(Boolean)));
+  const categoriasUnicas = Array.from(new Set(productos.map(p => p.categoria).filter(Boolean)));
 
   useEffect(() => {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'data-theme') {
+    const observador = new MutationObserver((mutaciones) => {
+      mutaciones.forEach((mutacion) => {
+        if (mutacion.attributeName === 'data-theme') {
           setTemaActual(document.documentElement.getAttribute('data-theme'));
         }
       });
     });
-    observer.observe(document.documentElement, {
+    observador.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme']
     });
-    return () => observer.disconnect();
+    return () => observador.disconnect();
   }, []);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const Header = () => {
   }, []);
 
   const cerrarSesion = () => {
-    logout();
+    cerrarSesionUsuario();
     navegar('/');
     Swal.fire({
       icon: 'success',
@@ -101,7 +101,7 @@ const Header = () => {
       .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   };
 
-  const cantidadTotal = carrito.reduce((total, p) => total + p.cantidad, 0);
+  const totalCarrito = carrito.reduce((total, p) => total + p.cantidad, 0);
 
   return (
     <>
@@ -116,9 +116,9 @@ const Header = () => {
         <button
           className="navbar-toggler d-sm-none"
           type="button"
-          onClick={alternarMenuMobile}
+          onClick={alternarMenuMovil}
           aria-controls="navbarMobile"
-          aria-expanded={menuMobileAbierto}
+          aria-expanded={mostrarMenuMovil}
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
@@ -138,9 +138,9 @@ const Header = () => {
               </button>
               {mostrarCategorias && (
                 <div className="categories-panel shadow">
-                  {categoriasDisponibles.map((categoria, index) => (
+                  {categoriasUnicas.map((categoria, indice) => (
                     <Link
-                      key={index}
+                      key={indice}
                       to={`/categoria/${formatearCategoria(categoria)}`}
                       className="category-item"
                       onClick={() => setMostrarCategorias(false)}
@@ -153,7 +153,7 @@ const Header = () => {
             </li>
           </ul>
           <div className="d-flex align-items-center gap-3">
-            {autenticado ? (
+            {usuarioAutenticado ? (
               <button 
                 className="btn btn-cerrar-sesion"
                 onClick={cerrarSesion}
@@ -176,15 +176,15 @@ const Header = () => {
               className="btn btn-outline-light position-relative botonCarritoEstilo"
             >
               <FaShoppingCart size={18} />
-              {cantidadTotal > 0 && (
+              {totalCarrito > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  {cantidadTotal}
+                  {totalCarrito}
                 </span>
               )}
             </Link>
           </div>
         </div>
-        <div className={`mobile-menu d-sm-none ${menuMobileAbierto ? 'show' : ''}`}>
+        <div className={`mobile-menu d-sm-none ${mostrarMenuMovil ? 'show' : ''}`}>
           <div className="mobile-menu-container" style={{ 
             height: '100vh',
             backgroundColor: '#1e1e1e'
@@ -199,7 +199,7 @@ const Header = () => {
               </Link>
               <button
                 className="mobile-menu-close"
-                onClick={alternarMenuMobile}
+                onClick={alternarMenuMovil}
               >
                 <FaTimes />
               </button>
@@ -214,7 +214,7 @@ const Header = () => {
                   <Link 
                     to="/" 
                     className="mobile-menu-link"
-                    onClick={alternarMenuMobile}
+                    onClick={alternarMenuMovil}
                   >
                     Productos
                   </Link>
@@ -222,18 +222,18 @@ const Header = () => {
                 <li className="mobile-menu-item">
                   <button 
                     className="mobile-menu-link"
-                    onClick={() => setCategoriasMobileAbiertas(!categoriasMobileAbiertas)}
+                    onClick={() => setMostrarCategoriasMovil(!mostrarCategoriasMovil)}
                   >
                     <span>Categorías</span>
                     <FaChevronDown 
                       style={{
-                        transform: categoriasMobileAbiertas ? 'rotate(180deg)' : 'rotate(0)',
+                        transform: mostrarCategoriasMovil ? 'rotate(180deg)' : 'rotate(0)',
                         transition: 'transform 0.08s ease'
                       }}
                       size={12}
                     />
                   </button>
-                  {categoriasMobileAbiertas && (
+                  {mostrarCategoriasMovil && (
                     <>
                       <div 
                         style={{
@@ -244,7 +244,7 @@ const Header = () => {
                           bottom: 0,
                           backgroundColor: 'var(--mobile-overlay-bg)',
                           zIndex: 9998,
-                          animation: estaCerrando ? 'fadeOut 0.08s ease-out forwards' : 'fadeIn 0.08s ease-out forwards'
+                          animation: cerrando ? 'fadeOut 0.08s ease-out forwards' : 'fadeIn 0.08s ease-out forwards'
                         }} 
                         onClick={cerrarMenu} 
                       />
@@ -261,7 +261,7 @@ const Header = () => {
                         borderRadius: '10px',
                         boxShadow: '0 0 20px rgba(0,0,0,0.3)',
                         border: '1px solid var(--mobile-menu-border)',
-                        animation: estaCerrando ? 'slideDown 0.06s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'slideUp 0.06s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                        animation: cerrando ? 'slideDown 0.06s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'slideUp 0.06s cubic-bezier(0.4, 0, 0.2, 1) forwards',
                         willChange: 'transform, opacity'
                       }}>
                         <style>
@@ -338,9 +338,9 @@ const Header = () => {
                           flexDirection: 'column',
                           gap: '8px'
                         }}>
-                          {categoriasDisponibles.map((categoria, index) => (
+                          {categoriasUnicas.map((categoria, indice) => (
                             <Link
-                              key={index}
+                              key={indice}
                               to={`/categoria/${formatearCategoria(categoria)}`}
                               style={{
                                 display: 'flex',
@@ -355,8 +355,8 @@ const Header = () => {
                                 fontSize: '0.95rem'
                               }}
                               onClick={() => {
-                                setCategoriasMobileAbiertas(false);
-                                alternarMenuMobile();
+                                setMostrarCategoriasMovil(false);
+                                alternarMenuMovil();
                               }}
                             >
                               <span>{categoria}</span>
@@ -376,11 +376,11 @@ const Header = () => {
               <div style={{ flex: 0.2 }}></div>
               <div className="mobile-menu-footer">
                 <hr className="mobile-menu-divider" />
-                {autenticado ? (
+                {usuarioAutenticado ? (
                   <button 
                     onClick={() => {
                       cerrarSesion();
-                      alternarMenuMobile();
+                      alternarMenuMovil();
                     }}
                     className="mobile-menu-admin"
                   >
@@ -390,7 +390,7 @@ const Header = () => {
                   <Link 
                     to="/login" 
                     className="mobile-menu-admin"
-                    onClick={alternarMenuMobile}
+                    onClick={alternarMenuMovil}
                   >
                     Entrar
                   </Link>
@@ -405,9 +405,9 @@ const Header = () => {
         className="floating-cart-button d-sm-none"
       >
         <FaShoppingCart size={22} />
-        {cantidadTotal > 0 && (
+        {totalCarrito > 0 && (
           <span className="badge">
-            {cantidadTotal}
+            {totalCarrito}
           </span>
         )}
       </Link>
@@ -415,4 +415,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Encabezado;

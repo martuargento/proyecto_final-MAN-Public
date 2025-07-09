@@ -1,4 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
+import { ProveedorCarrito } from './context/CarritoContexto';
+import { AuthProvider } from './context/AuthContext';
+import { ProductosProvider } from './context/ProductosContext';
+import { ToastContainer } from 'react-toastify';
+import { Helmet } from 'react-helmet';
+
 import Header from './components/Header';
 import Home from './components/Home';
 import VerPedido from './components/VerPedido';
@@ -6,14 +12,9 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import ProductosPorCategoria from './components/ProductosPorCategoria';
 import DetalleProducto from './components/DetalleProducto';
-import { ProveedorCarrito } from './context/CarritoContexto';
-import { AuthProvider } from './context/AuthContext';
 import RutaPrivada from './components/RutaPrivada';
-import { ProductosProvider } from './context/ProductosContext';
 import ProductosCRUD from './components/ProductosCRUD';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Helmet } from 'react-helmet';
 import './App.css';
 
 function App() {
