@@ -32,7 +32,7 @@ const DetalleProducto = () => {
         <div className="col-md-6">
           <h2>{producto.titulo}</h2>
           <p>{producto.descripcion}</p>
-          <p><strong>Precio:</strong> ${producto.precio}</p>
+          <p><strong>Precio:</strong> ${typeof producto.precio === 'number' ? producto.precio.toLocaleString('es-AR') : Number(String(producto.precio).replace(/,/g, '')).toLocaleString('es-AR')}</p>
           <p><strong>Categoría:</strong> {producto.categoria}</p>
           <button className="btn btn-primary mt-2" onClick={agregarProducto} aria-label="Agregar al carrito">
             <FaCartPlus /> Agregar al carrito

@@ -52,7 +52,7 @@ const ProductosPorCategoria = () => {
               <div className="card-body">
                 <h5 className="card-title">{producto.titulo}</h5>
                 <p className="card-text">{producto.descripcion}</p>
-                <p className="card-text"><strong>Precio:</strong> ${producto.precio}</p>
+                <p className="card-text"><strong>Precio:</strong> ${typeof producto.precio === 'number' ? producto.precio.toLocaleString('es-AR') : Number(String(producto.precio).replace(/,/g, '')).toLocaleString('es-AR')}</p>
                 <p className="card-text"><strong>Categoría:</strong> {producto.categoria}</p>
                 <button className="btn btn-primary mt-2" onClick={() => handleAgregar(producto)} aria-label="Agregar al carrito">
                   <FaCartPlus /> Agregar al carrito

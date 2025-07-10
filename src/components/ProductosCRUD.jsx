@@ -19,7 +19,14 @@ const StyledTable = styled.table`
 `;
 const ProductoForm = ({ onSubmit, productoInicial, modo, onCancel }) => {
   const [titulo, setTitulo] = useState(productoInicial?.titulo || '');
-  const [precio, setPrecio] = useState(productoInicial?.precio ? String(productoInicial.precio).replace(/\D/g, '') : '');
+  const formatPrecio = (valor) => {
+    if (!valor) return '';
+    // Elimina todo lo que no sea dígito
+    const soloNumeros = valor.replace(/\D/g, '');
+    // Formatea con comas
+    return soloNumeros.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+  const [precio, setPrecio] = useState(productoInicial?.precio ? formatPrecio(String(productoInicial.precio)) : '');
   const [descripcion, setDescripcion] = useState(productoInicial?.descripcion || '');
   const [imagen, setImagen] = useState(productoInicial?.imagen || '');
   const [categoria, setCategoria] = useState(productoInicial?.categoria || '');
@@ -27,8 +34,10 @@ const ProductoForm = ({ onSubmit, productoInicial, modo, onCancel }) => {
   const validar = () => {
     const nuevosErrores = {};
     if (!titulo.trim()) nuevosErrores.titulo = 'El título es obligatorio';
-    if (!precio || isNaN(precio) || Number(precio) <= 0) nuevosErrores.precio = 'El precio debe ser mayor a 0';
+    const precioNumerico = Number(precio.replace(/,/g, ''));
+    if (!precio || isNaN(precioNumerico) || precioNumerico <= 0) nuevosErrores.precio = 'El precio debe ser mayor a 0';
     if (!descripcion || descripcion.length < 10) nuevosErrores.descripcion = 'La descripción debe tener al menos 10 caracteres';
+    // Eliminada la validación de descripción para permitir dejarla vacía
     if (!categoria.trim()) nuevosErrores.categoria = 'La categoría es obligatoria';
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
@@ -38,7 +47,7 @@ const ProductoForm = ({ onSubmit, productoInicial, modo, onCancel }) => {
     if (!validar()) return;
     onSubmit({
       titulo,
-      precio: Number(String(precio).replace(/[^\d.]/g, '')),
+      precio: Number(precio.replace(/,/g, '')),
       descripcion,
       imagen,
       categoria
@@ -54,7 +63,13 @@ const ProductoForm = ({ onSubmit, productoInicial, modo, onCancel }) => {
       </div>
       <div className="mb-2">
         <label>Precio</label>
-        <input type="number" className="form-control" value={precio} onChange={e => setPrecio(e.target.value)} />
+        <input
+          type="text"
+          className="form-control"
+          value={precio}
+          onChange={e => setPrecio(formatPrecio(e.target.value))}
+          inputMode="numeric"
+        />
         {errores.precio && <div className="text-danger">{errores.precio}</div>}
       </div>
       <div className="mb-2">
@@ -183,7 +198,11 @@ const ProductosCRUD = () => {
             {productos.map(prod => (
               <tr key={prod.id}>
                 <td>{prod.titulo}</td>
-                <td>${prod.precio}</td>
+                <td>
+                  ${typeof prod.precio === 'number'
+                    ? prod.precio.toLocaleString('es-AR')
+                    : Number(String(prod.precio).replace(/,/g, '')).toLocaleString('es-AR')}
+                </td>
                 <td>{prod.descripcion}</td>
                 <td>{prod.imagen && <img src={prod.imagen} alt={prod.titulo} style={{width: '60px'}} />}</td>
                 <td>{prod.categoria}</td>
