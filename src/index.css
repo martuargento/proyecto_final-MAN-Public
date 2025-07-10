@@ -359,13 +359,13 @@ button:focus-visible {
   border-radius: 8px !important;
 }
 
-[data-theme="light"] .theme-toggle-btn {
+[data-theme="light"] .alternar-tema-boton {
   background-color: rgba(55, 65, 81, 0.03) !important;
   color: rgba(30, 41, 59, 0.8) !important;
   border: 1px solid rgba(30, 41, 59, 0.1) !important;
 }
 
-[data-theme="light"] .theme-toggle-btn:hover {
+[data-theme="light"] .alternar-tema-boton:hover {
   background-color: rgba(55, 65, 81, 0.08) !important;
   color: rgba(30, 41, 59, 1) !important;
   transform: translateY(-1px) !important;
@@ -1646,5 +1646,17 @@ html[data-theme="light"] button[style*="background: none"]:hover {
 
 .card-text {
   margin-top: auto !important;
+}
+
+
+:root[data-theme='dark'] .swal2-cancel {
+  background-color: #b05a7a !important;
+  border-color: #b05a7a !important;
+  color: #fff !important;
+}
+:root[data-theme='dark'] .swal2-confirm {
+  background-color: #666 !important;
+  border-color: #666 !important;
+  color: #fff !important;
 }
 

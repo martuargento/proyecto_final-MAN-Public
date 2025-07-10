@@ -97,6 +97,7 @@ const VerPedido = () => {
                       variant="link"
                       className="cart-quantity-button p-0 ms-3"
                       onClick={async () => {
+                        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
                         const res = await Swal.fire({
                           title: '¿Eliminar producto?',
                           text: `¿Seguro que querés eliminar "${producto.titulo}" del carrito?`,
@@ -105,7 +106,7 @@ const VerPedido = () => {
                           confirmButtonText: 'Sí, eliminar',
                           cancelButtonText: 'No, cancelar',
                           confirmButtonColor: '#3085d6',
-                          cancelButtonColor: '#d33',
+                          cancelButtonColor: isDark ? '#c0392b' : '#d33',
                         });
                         if (res.isConfirmed) {
                           eliminarDelCarrito(producto.id);
@@ -152,6 +153,7 @@ const VerPedido = () => {
               minWidth: '140px'
             }}
             onClick={async () => {
+              const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
               const res = await Swal.fire({
                 title: '¿Vaciar carrito?',
                 text: '¿Seguro que querés eliminar todos los productos del carrito?',
@@ -160,7 +162,7 @@ const VerPedido = () => {
                 confirmButtonText: 'Sí, vaciar',
                 cancelButtonText: 'No, cancelar',
                 confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                cancelButtonColor: isDark ? '#c0392b' : '#d33',
               });
               if (res.isConfirmed) {
                 vaciarCarrito();

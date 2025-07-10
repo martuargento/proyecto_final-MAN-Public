@@ -151,7 +151,7 @@ const Header = () => {
                 </div>
               )}
             </li>
-            {/* Botón Admin solo si está autenticado */}
+            {/* boton admin solo si estas autenticado */}
             {autenticado && (
               <li className="nav-item">
                 <Link className="nav-link text-white" to="/admin/productos">Admin</Link>
@@ -373,7 +373,7 @@ const Header = () => {
                     </>
                   )}
                 </li>
-                {/* Botón Admin solo si está autenticado en mobile */}
+                {/* boton admin solo si estas autenticado en mobile */}
                 {autenticado && (
                   <li className="mobile-menu-item">
                     <Link 

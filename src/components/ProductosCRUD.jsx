@@ -22,9 +22,7 @@ const ProductoForm = ({ onSubmit, productoInicial, modo, onCancel }) => {
   const [titulo, setTitulo] = useState(productoInicial?.titulo || '');
   const formatPrecio = (valor) => {
     if (!valor) return '';
-    // Elimina todo lo que no sea dígito
     const soloNumeros = valor.replace(/\D/g, '');
-    // Formatea con comas
     return soloNumeros.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
   const [precio, setPrecio] = useState(productoInicial?.precio ? formatPrecio(String(productoInicial.precio)) : '');
@@ -38,7 +36,6 @@ const ProductoForm = ({ onSubmit, productoInicial, modo, onCancel }) => {
     const precioNumerico = Number(precio.replace(/,/g, ''));
     if (!precio || isNaN(precioNumerico) || precioNumerico <= 0) nuevosErrores.precio = 'El precio debe ser mayor a 0';
     if (!descripcion || descripcion.length < 10) nuevosErrores.descripcion = 'La descripción debe tener al menos 10 caracteres';
-    // Eliminada la validación de descripción para permitir dejarla vacía
     if (!categoria.trim()) nuevosErrores.categoria = 'La categoría es obligatoria';
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
@@ -211,6 +208,7 @@ const ProductosCRUD = () => {
                     Editar
                   </button>
                   <button className="btn btn-eliminar btn-sm" onClick={async () => {
+                    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
                     const res = await Swal.fire({
                       title: '¿Eliminar producto?',
                       text: `¿Seguro que querés eliminar "${prod.titulo}"?`,
@@ -219,7 +217,7 @@ const ProductosCRUD = () => {
                       confirmButtonText: 'Sí, eliminar',
                       cancelButtonText: 'No, cancelar',
                       confirmButtonColor: '#3085d6',
-                      cancelButtonColor: '#d33',
+                      cancelButtonColor: isDark ? '#c0392b' : '#d33',
                     });
                     if (res.isConfirmed) {
                       await handleEliminarProducto(prod);
