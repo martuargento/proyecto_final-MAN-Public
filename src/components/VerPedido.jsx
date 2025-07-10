@@ -1,6 +1,7 @@
 import React from 'react';
 import { usarCarrito } from '../context/CarritoContexto';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 const ajustarPrecio = (precioOriginal, titulo = '') => {
   let precio = Number(String(precioOriginal).replace(/[^\d.]/g, '').replace(',', '.'));
   if (isNaN(precio)) return 0;
@@ -135,7 +136,22 @@ const VerPedido = () => {
             style={{ 
               minWidth: '140px'
             }}
-            onClick={vaciarCarrito}
+            onClick={async () => {
+              const res = await Swal.fire({
+                title: '¿Vaciar carrito?',
+                text: '¿Seguro que querés eliminar todos los productos del carrito?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, vaciar',
+                cancelButtonText: 'No, cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+              });
+              if (res.isConfirmed) {
+                vaciarCarrito();
+                Swal.fire('¡Listo!', 'El carrito fue vaciado.', 'success');
+              }
+            }}
           >
             Vaciar carrito
           </Button>
