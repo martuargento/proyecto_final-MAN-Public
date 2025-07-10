@@ -3,6 +3,7 @@ import { useProductos } from '../context/ProductosContext';
 import { toast } from 'react-toastify';
 
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 const FormContainer = styled.form`
   background: #fff;
@@ -168,11 +169,10 @@ const ProductosCRUD = () => {
     else toast.error('Error al editar producto');
     setModalForm({ mostrar: false, modo: 'agregar', producto: null });
   };
-  const handleEliminar = async () => {
-    const ok = await eliminarProducto(modalEliminar.producto.id);
+  const handleEliminarProducto = async (producto) => {
+    const ok = await eliminarProducto(producto.id);
     if (ok) toast.success('Producto eliminado correctamente');
     else toast.error('Error al eliminar producto');
-    setModalEliminar({ mostrar: false, producto: null });
   };
   return (
     <div className="container my-4">
@@ -210,7 +210,22 @@ const ProductosCRUD = () => {
                   <button className="btn btn-editar btn-sm me-2" onClick={() => setModalForm({ mostrar: true, modo: 'editar', producto: prod })} aria-label="Editar producto">
                     Editar
                   </button>
-                  <button className="btn btn-eliminar btn-sm" onClick={() => setModalEliminar({ mostrar: true, producto: prod })} aria-label="Eliminar producto">
+                  <button className="btn btn-eliminar btn-sm" onClick={async () => {
+                    const res = await Swal.fire({
+                      title: '¿Eliminar producto?',
+                      text: `¿Seguro que querés eliminar "${prod.titulo}"?`,
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonText: 'Sí, eliminar',
+                      cancelButtonText: 'No, cancelar',
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                    });
+                    if (res.isConfirmed) {
+                      await handleEliminarProducto(prod);
+                      Swal.fire('¡Listo!', 'El producto fue eliminado.', 'success');
+                    }
+                  }} aria-label="Eliminar producto">
                     Eliminar
                   </button>
                 </td>
@@ -233,7 +248,7 @@ const ProductosCRUD = () => {
       <ModalConfirmacion
         mostrar={modalEliminar.mostrar}
         producto={modalEliminar.producto}
-        onConfirmar={handleEliminar}
+        onConfirmar={handleEliminarProducto}
         onCancelar={() => setModalEliminar({ mostrar: false, producto: null })}
       />
     </div>
