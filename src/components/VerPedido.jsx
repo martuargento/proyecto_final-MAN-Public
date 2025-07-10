@@ -96,7 +96,22 @@ const VerPedido = () => {
                     <Button 
                       variant="link"
                       className="cart-quantity-button p-0 ms-3"
-                      onClick={() => eliminarDelCarrito(producto.id)}
+                      onClick={async () => {
+                        const res = await Swal.fire({
+                          title: '¿Eliminar producto?',
+                          text: `¿Seguro que querés eliminar "${producto.titulo}" del carrito?`,
+                          icon: 'warning',
+                          showCancelButton: true,
+                          confirmButtonText: 'Sí, eliminar',
+                          cancelButtonText: 'No, cancelar',
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                        });
+                        if (res.isConfirmed) {
+                          eliminarDelCarrito(producto.id);
+                          Swal.fire('¡Listo!', 'El producto fue eliminado del carrito.', 'success');
+                        }
+                      }}
                     >
                       <FaTrash size={14} />
                     </Button>
