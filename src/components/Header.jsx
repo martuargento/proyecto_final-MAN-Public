@@ -385,29 +385,26 @@ const Header = () => {
                     </Link>
                   </li>
                 )}
-                <li className="mobile-menu-item" style={{ marginTop: '1rem' }}>
-                  <div className="d-flex justify-content-center">
-                    <AlternarTema />
-                  </div>
-                </li>
               </ul>
               <div style={{ flex: 0.2 }}></div>
-              <div className="mobile-menu-footer">
-                <hr className="mobile-menu-divider" />
+              <div className="d-flex flex-column align-items-center mt-4 mb-4 w-100 px-3">
+                <AlternarTema />
                 {autenticado ? (
                   <button 
                     onClick={() => {
                       cerrarSesion();
                       alternarMenuMobile();
                     }}
-                    className="mobile-menu-admin"
+                    className="btn btn-primary w-100 mt-3"
+                    style={{ minWidth: '120px', maxWidth: '300px' }}
                   >
                     Salir
                   </button>
                 ) : (
                   <Link 
                     to="/login" 
-                    className="mobile-menu-admin"
+                    className="btn btn-primary w-100 mt-3"
+                    style={{ minWidth: '120px', maxWidth: '300px', textAlign: 'center' }}
                     onClick={alternarMenuMobile}
                   >
                     Entrar
